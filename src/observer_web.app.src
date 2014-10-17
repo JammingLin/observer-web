@@ -1,0 +1,15 @@
+{application, observer_web, [
+	{description, "Observer web frontend"},
+	{vsn, "0.1.0"},
+	{modules, []},
+	{registered, [observer_web_sup]},
+	{applications, [
+		kernel,
+		stdlib,
+		cowboy,
+		xmerl,
+		runtime_tools
+	]},
+	{mod, {observer_web_app, []}},
+	{env, []}
+]}.
