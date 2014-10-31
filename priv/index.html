@@ -6,27 +6,29 @@
 	<title>Observer Web</title>
     <link rel="icon" href="img/favicon.ico">
 	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-table.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-table.js"></script>
     <script type="text/javascript" src="js/highcharts.js"></script>
     <script type="text/javascript" src="js/grid-light.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-            get_nodes();
-            loadSysInfo();;
-            setTimeout(function(){
-                loadCharts();
-            }, 2000);
-            
-            $('#nodes li a').on("click", function(){
-                console.log("Value: ", $(this).html());
-                var value = $(this).html();
-                if(value != "Connect Node"){
-                    change_node(value);
-                }
-            });
-        });
+        // $(document).ready(function(){
+        //     getNodes();
+        //     loadSysInfo();;
+        //     setTimeout(function(){
+        //         loadCharts();
+        //     }, 2000);
+        //     loadProInfo();
+        //     $('#nodes li a').on("click", function(){
+        //         console.log("Value: ", $(this).html());
+        //         var value = $(this).html();
+        //         if(value != "Connect Node"){
+        //             changeNode(value);
+        //         }
+        //     });
+        // });
     </script>
 </head>
 <body>
@@ -110,15 +112,15 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-bordered">
-                        <thead style="font-size:14px">
+                    <table data-toggle="table" data-cache="false" data-height="200">
+                        <thead>
                             <tr>
                                 <th>Allocator Type</th>
                                 <th>Block size(KB)</th>
                                 <th>Carrier size(KB)</th>
                             </tr>
                         </thead>
-                        <tbody id="alloctor-table" style="font-size:12px">
+                        <tbody id="alloctor-table">
                         </tbody>
                     </table>
                 </div>
@@ -140,7 +142,22 @@
             </div>
         </div>
         <div class="tab-pane" id="applications"><p>Applications</p></div>
-        <div class="tab-pane" id="processes"><p>Processes</p></div>
+        <div class="tab-pane" id="processes">
+            <table data-toggle="table" data-cache="false" data-height="600">
+                <thead>
+                    <tr>
+                        <th>Pid</th>
+                        <th>Name or Initial Func</th>
+                        <th>Reds</th>
+                        <th>Memory</th>
+                        <th>MsgQ</th>
+                        <th>Current Function</th>
+                    </tr>
+                </thead>
+                <tbody id="process-table">
+                </tbody>
+            </table>
+        </div>
         <div class="tab-pane" id="table-viewer"><p>Table Viewer</p></div>
         <div class="tab-pane" id="trace-overview"><p>Trace Overview</p></div>
     </div>
@@ -167,7 +184,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick="connect_node()">OK</button>
+                    <button type="button" class="btn btn-primary" onclick="connectNode()">OK</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

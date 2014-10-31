@@ -15,5 +15,6 @@ start_link() ->
 	supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
-	Procs = [],
+	ObserverPro = {observer_pro_web, {observer_pro_web, start_link, []}, permanent, 2000, worker, [observer_pro_web]},
+	Procs = [ObserverPro],
 	{ok, {{one_for_one, 10, 10}, Procs}}.

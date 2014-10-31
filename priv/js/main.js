@@ -269,9 +269,9 @@ function displayInfo(id, data) {
     var txt = "";
     if (id == "#alloctor-table") {
         for (var i = 0; i < data.length; i++) {
-            txt = txt + "<tr><td>" + data[i].name + "</td><td>" + data[i].bs + "</td><td>" + data[i].cs + "</td></tr>";
+            txt = txt + "<tr><td>" + data[i].name + "</td><td class=\"text-right\">" + data[i].bs + "</td><td class=\"text-right\">" + data[i].cs + "</td></tr>";
         }
-    } else {
+    }else {
         for (var i = 0; i < data.length; i++) {
             txt = txt + "<tr><td>" + data[i].name + "</td><td>" + data[i].value + "</td></tr>";
         }
@@ -322,7 +322,7 @@ function getBetterValue(value, max){
     }
 }
 
-function connect_node(){
+function connectNode(){
     $('#connect_node_modal').modal('toggle');
     var nodename = $('#nodename').val();
     var cookie = $('#cookie').val();
@@ -340,7 +340,7 @@ function connect_node(){
     });
 }
 
-function get_nodes(){
+function getNodes(){
     var xmlhttp = new XMLHttpRequest();
     sendAsyncRequest(xmlhttp, "action=get_nodes", function(){
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -356,7 +356,7 @@ function get_nodes(){
     });
 }
 
-function change_node(node){
+function changeNode(node){
     var xmlhttp = new XMLHttpRequest();
     sendAsyncRequest(xmlhttp, "action=change_node&node=" + node, function(){
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -364,6 +364,27 @@ function change_node(node){
             if(xmlhttp.responseText == "true"){
                 location.reload();
             }
+        }
+    });
+}
+
+function loadProInfo(){
+    loadProInfos();
+    setInterval(function(){
+        loadProInfos();
+    }, 10*1000);
+}
+
+function loadProInfos() {
+    var xmlhttp = new XMLHttpRequest();
+    sendAsyncRequest(xmlhttp, "action=get_pro&type=all", function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var jsonData = eval("(" + xmlhttp.responseText + ")");
+            var txt = "";
+            for (var i = jsonData.length -1; i >= 0 ; i--) {
+                txt = txt + "<tr><td>" + jsonData[i].pid + "</td><td>" + jsonData[i].name + "</td><td class=\"text-right\">" + jsonData[i].reds + "</td><td class=\"text-right\">"+ jsonData[i].mem + "</td><td class=\"text-right\">"+ jsonData[i].msg +"</td><td>"+ jsonData[i].fun +"</td></tr>";
+            }
+            $('#process-table').html(txt);
         }
     });
 }

@@ -31,14 +31,16 @@ process(<<"POST">>, true, Req) ->
 	{ok, PostVals, Req2} = cowboy_req:body_qs(Req),
 	case proplists:get_value(<<"action">>, PostVals) of
 		<<"get_sys">> ->
-			io:format("==> get sys_info"),
 			Body = observer_web_lib:escape(do_process(get_sys, get_acc_node())),
 			cowboy_req:reply(200, [{<<"content-type">>, <<"text/plain; charset=utf-8">>}], list_to_binary(Body), Req2);
 		<<"get_perf">> ->
-			io:format("==> get get_perf"),
 			Type = proplists:get_value(<<"type">>, PostVals),
 			Body = do_process(get_perf, {get_acc_node(), binary_to_atom(Type, latin1)}),
 			cowboy_req:reply(200, [{<<"content-type">>, <<"text/plain; charset=utf-8">>}], list_to_binary(Body), Req2);
+		<<"get_pro">> ->
+			Type = proplists:get_value(<<"type">>, PostVals),
+			Body = do_process(get_pro, Type),
+			cowboy_req:reply(200, [{<<"content-type">>, <<"text/plain; charset=utf-8">>}], Body, Req2);
 		<<"change_node">> ->
 			Node = proplists:get_value(<<"node">>, PostVals),
 			Result = do_process(change_node, Node),
@@ -81,6 +83,16 @@ do_process(get_perf, {Node, Type}) ->
 		_ ->
 			rfc4627:encode({obj, Data0})
 	end;
+
+do_process(get_pro, Type) ->
+	case Type of
+		<<"all">> ->
+			Data = observer_pro_web:update(),
+			list_to_binary(rfc4627:encode(Data));
+		_ ->
+			io:format("Type: ~p~n", [Type])
+	end;
+
 do_process(change_node, Value) ->
 	Node = binary_to_atom(Value, latin1),
 	case lists:keyfind(Node, 1, get_nodes()) of
@@ -91,6 +103,7 @@ do_process(change_node, Value) ->
 					<<"false">>;
 				pong ->
 					insert_Data(acc_node, Node),
+					observer_pro_web:change_node(Node),
 					<<"true">>
 			end;
 		false ->

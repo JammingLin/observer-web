@@ -1,9 +1,3 @@
-%%%----------------------------------------------------------------------------
-%%% @author Bill Wang <freecnpro@gmail.com>
-%%% @copyright 2014 Freecnpro
-%%% @doc
-%%% @end
-%%%----------------------------------------------------------------------------
 -module(observer_web_lib).
 
 -export([fill_info/2, to_str/1, escape/1]).
