@@ -6,6 +6,7 @@ Observer Web is Erlang observer web frontend, base code borrowed from observer g
 Currently supported:
 * System
 * Load Charts
+* Processes (preview)
 
 ##Screenshots
 ![image](https://github.com/freecnpro/observer-web/blob/master/screenshots/screenshot_01.png)
