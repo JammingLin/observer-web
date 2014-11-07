@@ -14,21 +14,21 @@
     <script type="text/javascript" src="js/grid-light.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript">
-        // $(document).ready(function(){
-        //     getNodes();
-        //     loadSysInfo();;
-        //     setTimeout(function(){
-        //         loadCharts();
-        //     }, 2000);
-        //     loadProInfo();
-        //     $('#nodes li a').on("click", function(){
-        //         console.log("Value: ", $(this).html());
-        //         var value = $(this).html();
-        //         if(value != "Connect Node"){
-        //             changeNode(value);
-        //         }
-        //     });
-        // });
+         $(document).ready(function(){
+             getNodes();
+             loadSysInfo();;
+             setTimeout(function(){
+                 loadCharts();
+             }, 2000);
+             loadProInfo();
+             $('#nodes li a').on("click", function(){
+                 console.log("Value: ", $(this).html());
+                 var value = $(this).html();
+                 if(value != "Connect Node"){
+                     changeNode(value);
+                 }
+             });
+         });
     </script>
 </head>
 <body>
