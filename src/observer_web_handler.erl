@@ -7,23 +7,13 @@
 
 -module(observer_web_handler).
 
--behaviour(cowboy_http_handler).
+-export([init/2]).
 
--export([init/3]).
--export([handle/2]).
--export([terminate/3]).
-
-init(_, Req, _Opts) ->
-	{ok, Req, undefined}.
-
-handle(Req, State) ->
+init(Req, Opts) ->
 	Method = cowboy_req:method(Req),
 	HasBody = cowboy_req:has_body(Req),
 	Req2 = process(Method, HasBody, Req),
-	{ok, Req2, State}.
-
-terminate(_Reason, _Req, _State) ->
-	ok.
+	{ok, Req2, Opts}.
 
 process(<<"POST">>, false, Req) ->
 	cowboy_req:reply(400, [], <<"Missing body.">>, Req);
